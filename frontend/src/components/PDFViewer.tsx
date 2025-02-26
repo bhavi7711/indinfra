@@ -12,8 +12,8 @@ interface PDFViewerProps {
 
 const PDFViewer: React.FC<PDFViewerProps> = ({ pdfList, selectedFolder }) => {
   const [selectedPdf, setSelectedPdf] = useState<string | null>(null);
-  const [highlights, setHighlights] = useState<any[]>([]); // Store highlights
-  const [isHighlighting, setIsHighlighting] = useState(false); // Toggle highlight mode
+  const [highlights, setHighlights] = useState<any[]>([]);
+  const [isHighlighting, setIsHighlighting] = useState(false);
   const pdfViewerRef = useRef<any>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
 
@@ -32,7 +32,6 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfList, selectedFolder }) => {
     }
   }, [selectedPdf]);
 
-  // Handle text selection and highlight
   const handleTextSelection = () => {
     if (isHighlighting) {
       const selection = window.getSelection();
@@ -41,50 +40,76 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfList, selectedFolder }) => {
         const rect = range.getBoundingClientRect();
 
         if (rect && rect.height > 0 && rect.width > 0) {
-          // Create highlight data (including coordinates and PDF reference)
           const highlightData = {
             text: selection.toString(),
-            start: { x: rect.left, y: rect.top + scrollPosition }, // Adjust Y with scroll
-            end: { x: rect.right, y: rect.bottom + scrollPosition }, // Adjust Y with scroll
+            start: { x: rect.left, y: rect.top + scrollPosition },
+            end: { x: rect.right, y: rect.bottom + scrollPosition },
             pdf: selectedPdf,
           };
 
           setHighlights((prev) => [...prev, highlightData]);
 
-          // Wrap selected text in a span with highlight
           const span = document.createElement("span");
           span.style.backgroundColor = "yellow";
           range.surroundContents(span);
 
-          // Clear the selection after applying the highlight
           window.getSelection()?.removeAllRanges();
         }
       }
     }
   };
 
-  // Handle scroll to track the PDF position
   const handleScroll = () => {
     const scrollTop = pdfViewerRef.current.scrollTop;
     setScrollPosition(scrollTop);
   };
 
-  // Save highlights to the backend
   const saveHighlight = async () => {
     if (highlights.length > 0) {
       const response = await fetch("http://127.0.0.1:5000/save-highlight", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ highlights }),
       });
 
       if (response.ok) {
-        console.log("Highlight saved successfully!");
+        alert("Highlights saved successfully!");
       } else {
-        console.error("Failed to save highlight");
+        const errorMessage = await response.text();
+        alert("Failed to save highlights: " + errorMessage);
       }
+    } else {
+      alert("No highlights to save.");
+    }
+  };
+
+  const savePdf = async () => {
+    if (selectedPdf && selectedFolder) {
+      // Fetch the selected PDF file from the URL
+      const response = await fetch(selectedPdf);
+      const blob = await response.blob();
+      const formData = new FormData();
+      formData.append("pdf", blob, selectedPdf.split("/").pop() || "document.pdf");
+      formData.append("folder", selectedFolder);
+
+      try {
+        const uploadResponse = await fetch("http://127.0.0.1:5000/save-current-pdf", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (uploadResponse.ok) {
+          alert("PDF saved successfully!");
+        } else {
+          const errorMessage = await uploadResponse.text();
+          alert("Failed to save PDF: " + errorMessage);
+        }
+      } catch (error) {
+        console.error("Error saving PDF:", error);
+        alert("Error saving PDF. Please try again.");
+      }
+    } else {
+      alert("Please select a PDF and folder.");
     }
   };
 
@@ -93,10 +118,28 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfList, selectedFolder }) => {
       {/* Sidebar */}
       <div className="w-1/4 p-4 border-r border-gray-700">
         <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-          <FolderOpen className="w-5 h-5 text-blue-400" /> My Documents
+          <FolderOpen className="w-5 h-5 text-blue-400" /> Tools
         </h2>
+
+        {/* Snipping Tool */}
         <SnippingTool selectedFolder={selectedFolder} />
+
+        {/* Highlight Tool */}
         <HighlightTool onClick={() => setIsHighlighting(true)} />
+
+        {/* Save PDF Button */}
+        <button
+          onClick={savePdf}
+          className="mt-4 px-4 py-3 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg w-full"
+          style={{
+            position: "relative",
+            zIndex: 100,
+            cursor: "pointer",
+            display: "inline-block",
+          }}
+        >
+          Save PDF
+        </button>
       </div>
 
       {/* Main Content */}
@@ -136,8 +179,8 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfList, selectedFolder }) => {
                 <div
                   className="w-full flex-grow border border-gray-600 p-4 rounded-lg bg-gray-800 shadow-lg overflow-auto h-[80vh]"
                   ref={pdfViewerRef}
-                  onScroll={handleScroll} // Track scroll position
-                  onMouseUp={handleTextSelection} // Trigger highlight on text selection
+                  onScroll={handleScroll}
+                  onMouseUp={handleTextSelection}
                 >
                   <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
                     <Viewer fileUrl={selectedPdf} />
@@ -149,12 +192,12 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfList, selectedFolder }) => {
                       key={index}
                       style={{
                         position: "absolute",
-                        top: `${highlight.start.y}px`, // Adjust Y position based on scroll
+                        top: `${highlight.start.y}px`,
                         left: `${highlight.start.x}px`,
                         width: `${highlight.end.x - highlight.start.x}px`,
                         height: `${highlight.end.y - highlight.start.y}px`,
-                        backgroundColor: "rgba(255, 255, 0, 0.5)", // Lighter yellow color
-                        pointerEvents: "none", // Ensure highlights don't block other interactions
+                        backgroundColor: "rgba(255, 255, 0, 0.5)",
+                        pointerEvents: "none",
                       }}
                     ></div>
                   ))}

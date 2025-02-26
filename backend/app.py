@@ -129,26 +129,43 @@ def start_snip():
         print(f"❌ Error moving snip: {e}")
         return jsonify({"error": f"Failed to move snip: {str(e)}"}), 500
 
-# ✅ Save Edited PDF Properly
-@app.route("/save-edited-pdf", methods=["POST"])
-def save_edited_pdf():
-    if "file" not in request.files:
+# ✅ Save Edited PDF Properly (Make sure opened PDF gets saved)
+@app.route("/save-current-pdf", methods=["POST"])
+def save_current_pdf():
+    if "pdf" not in request.files:
         return jsonify({"error": "No file part"}), 400
 
-    file = request.files["file"]
+    file = request.files["pdf"]
     folder = request.form.get("folder", "").strip()
-    filename = request.form.get("filename", "edited.pdf").strip()
+    filename = file.filename
 
-    if file.filename == "":
+    if filename == "":
         return jsonify({"error": "No selected file"}), 400
 
+    # Ensure the folder exists or create it
     folder_path = os.path.join(app.config["UPLOAD_FOLDER"], folder) if folder else app.config["UPLOAD_FOLDER"]
     os.makedirs(folder_path, exist_ok=True)
 
-    file_path = os.path.join(folder_path, filename)
-    file.save(file_path)
+    # Check if folder creation worked
+    if not os.path.exists(folder_path):
+        return jsonify({"error": f"Folder creation failed: {folder_path}"}), 500
 
-    return jsonify({"message": "Edited PDF saved successfully", "file_url": f"http://127.0.0.1:5000/uploads/{folder}/{filename}" if folder else f"http://127.0.0.1:5000/uploads/{filename}"}), 200
+    # Save the PDF file to the folder
+    file_path = os.path.join(folder_path, filename)
+
+    # Debugging: Print the file path where the PDF will be saved
+    print(f"📂 Saving PDF to: {file_path}")
+
+    try:
+        file.save(file_path)  # Save the file to the folder
+        print(f"✅ PDF saved at: {file_path}")
+        return jsonify({
+            "message": "PDF saved successfully", 
+            "file_url": f"http://127.0.0.1:5000/uploads/{folder}/{filename}" if folder else f"http://127.0.0.1:5000/uploads/{filename}"
+        }), 200
+    except Exception as e:
+        print(f"❌ Error saving PDF: {str(e)}")
+        return jsonify({"error": f"Failed to save PDF: {str(e)}"}), 500
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
