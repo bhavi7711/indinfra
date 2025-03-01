@@ -1,6 +1,6 @@
-#PDF ANNOTATION TOOL
+**PDF ANNOTATION TOOL**
 
-#PDF annotation tool is an innovative tool built to interact with PDFs, allowing users to snip portions of a PDF and highlight text. The application integrates a backend system that stores these annotations in an SQLite3 database, ensuring that all user interactions with the PDFs are stored efficiently. The tool is hosted on Firebase, offering seamless deployment and access.
+PDF annotation tool is an innovative tool built to interact with PDFs, allowing users to snip portions of a PDF and highlight text. The application integrates a backend system that stores these annotations in an SQLite3 database, ensuring that all user interactions with the PDFs are stored efficiently. The tool is hosted on Firebase, offering seamless deployment and access.
 
 Features Overview
 Snip Tool:
