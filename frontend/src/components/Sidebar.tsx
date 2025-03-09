@@ -19,9 +19,16 @@ const Sidebar: React.FC<SidebarProps> = ({ onFolderSelect, selectedFolder }) => 
         const folderPath = files[0].webkitRelativePath.split("/")[0]; // Extract folder name
         setFolders((prev) => [...prev, folderPath]);
         onFolderSelect(folderPath);
+        handleFolderSelection(folderPath); // Save the selected folder path
       }
     };
     input.click();
+  };
+
+  // Save the folder path using Electron's IPC
+  const handleFolderSelection = async (folderPath: string) => {
+    const { ipcRenderer } = window.require("electron");
+    await ipcRenderer.invoke("set-folder-path", folderPath); // Save selected folder path
   };
 
   return (
@@ -34,7 +41,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onFolderSelect, selectedFolder }) => 
       </button>
       <ul>
         {folders.map((folder, index) => (
-          <li key={index} className={`p-2 ${folder === selectedFolder ? "bg-gray-700" : ""}`}>
+          <li
+            key={index}
+            className={`p-2 ${folder === selectedFolder ? "bg-gray-700" : ""}`}
+          >
             📁 {folder}
           </li>
         ))}
