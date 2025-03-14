@@ -6,6 +6,20 @@ interface SnippingToolProps {
 }
 
 const SnippingTool: React.FC<SnippingToolProps> = ({ selectedFolder }) => {
+  const saveSnip = async (snipBlob: Blob) => {
+    const arrayBuffer = await snipBlob.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer); // Convert Blob to Buffer
+
+    const { ipcRenderer } = window.require("electron"); // Use Electron IPC
+    const savedPath = await ipcRenderer.invoke("save-snip", buffer, selectedFolder);
+
+    if (savedPath) {
+      console.log("Snip saved at:", savedPath);
+    } else {
+      console.log("Snip save canceled.");
+    }
+  };
+
   const handleSnip = async () => {
     if (!selectedFolder) {
       alert("⚠️ Please select a folder first.");
@@ -30,6 +44,10 @@ const SnippingTool: React.FC<SnippingToolProps> = ({ selectedFolder }) => {
 
       if (response.ok) {
         alert(`✅ Snip saved successfully!\n📁 Location: ${data.file_path}`);
+
+        // Fetch the snip as Blob and pass it to saveSnip
+        const snipBlob = await (await fetch(data.file_path)).blob();
+        await saveSnip(snipBlob);
       } else {
         alert(`❌ Failed to save snip: ${data.error}`);
       }
