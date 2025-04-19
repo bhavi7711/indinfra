@@ -33,11 +33,11 @@ const PDFViewer: React.FC<PDFViewerProps> = ({ pdfList, selectedFolder }) => {
   return (
     <div className="flex h-screen w-full bg-gray-900 text-white overflow-hidden">
       {/* Sidebar */}
-      <div className="w-1/4 p-4 border-r border-blue-500">
-        <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+      <div className="w-1/4 p-4 border-r border-white-500">
+        <h2 className="text-lg font-bold mb-4 flex items-center gap-2 mt-8 ">
           <FolderOpen className="w-5 h-5 text-blue-400" /> Tools
         </h2>
-        <SnippingTool selectedFolder={selectedFolder} />
+        <SnippingTool selectedFolder={selectedFolder}/>
         <div className="my-4"></div>
         <HighlightTool onClick={() => console.log("Highlighting activated")} />
       </div>

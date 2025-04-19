@@ -10,7 +10,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "electron": "electron ."
-    
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
@@ -22,6 +21,7 @@
     "@tailwindcss/vite": "^4.0.4",
     "axios": "^1.7.9",
     "electron": "^34.1.1",
+    "firebase": "^11.5.0",
     "html2canvas": "^1.4.1",
     "lucide-react": "^0.474.0",
     "pdf-lib": "^1.17.1",

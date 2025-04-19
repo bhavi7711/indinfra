@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "./components/Sidebar";
 import PDFViewer from "./components/PDFViewer";
+import Auth from "./components/Auth";
 
 interface PdfFile {
   filename: string;
@@ -11,6 +12,7 @@ const App: React.FC = () => {
   const [pdfList, setPdfList] = useState<PdfFile[]>([]);
   const [folderPdfs, setFolderPdfs] = useState<PdfFile[]>([]);
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     fetch("http://127.0.0.1:5000/get-pdfs")
@@ -28,15 +30,18 @@ const App: React.FC = () => {
       .catch((error) => console.error("Error fetching folder PDFs:", error));
   };
 
-
   return (
-    <div className="h-screen flex flex-col bg-black-800 text-black"> 
-      <div className="flex flex-1">
-        <Sidebar onFolderSelect={handleFolderSelect} selectedFolder={selectedFolder} />
-        <div className="flex flex-col flex-1 p-4">
-          <PDFViewer pdfList={selectedFolder ? folderPdfs : pdfList} selectedFolder={selectedFolder} />
+    <div className="w-screen h-screen flex flex-col text-black"> 
+      {user ? (
+        <div className="flex flex-1 w-full">
+          <Sidebar onFolderSelect={handleFolderSelect} selectedFolder={selectedFolder} />
+          <div className="flex flex-col flex-1 p-4 w-full">
+            <PDFViewer pdfList={selectedFolder ? folderPdfs : pdfList} selectedFolder={selectedFolder} />
+          </div>
         </div>
-      </div>
+      ) : (
+        <Auth setUser={setUser} />
+      )}
     </div>
   );
 };

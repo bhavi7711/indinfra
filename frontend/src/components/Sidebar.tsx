@@ -32,8 +32,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onFolderSelect, selectedFolder }) => 
   };
 
   return (
-    <div className="w-64 bg-gray-900 text-white p-4">
-      <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+    <div className="w-64 bg-gray-900 text-white p-4 ">
+      <h2 className="text-lg font-bold mb-4 flex items-center gap-2 mt-8">
         <Folder className="w-5 h-5 text-blue-400" /> My Documents
       </h2>
       <button onClick={handleOpenFolder} className="bg-blue-500 px-4 py-2 rounded mb-4">
