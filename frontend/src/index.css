@@ -1,82 +1,94 @@
 @import "tailwindcss";
 
-:root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
-
-    color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
-
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
 }
 
-a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
+/* PDF Highlight Styles */
+.pdf-highlight {
+  background-color: yellow !important;
+  color: black !important;
+  border-radius: 3px !important;
+  padding: 2px 4px !important;
+  margin: 0 1px !important;
+  display: inline !important;
+  position: relative !important;
+  z-index: 9999 !important;
+  font-weight: bold !important;
+  box-shadow: 0 0 3px rgba(0,0,0,0.3) !important;
 }
 
-a:hover {
-    color: #535bf2;
+.pdf-highlight:hover {
+  background-color: #ffff00 !important;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5) !important;
+}
+
+/* Override PDF Viewer Library White Backgrounds */
+.rpv-core__viewer {
+  background-color: #191b20 !important;
+}
+
+.rpv-core__page-layer {
+  background-color: #374151 !important;
+}
+
+.rpv-core__page {
+  background-color: #0f0f10 !important;
+}
+
+.rpv-core__page-container {
+  background-color: #0c0d0d !important;
+}
+
+.rpv-core__page-layer--single {
+  background-color: #374151 !important;
+}
+
+.rpv-core__page-layer--dual {
+  background-color: #374151 !important;
+}
+
+.rpv-core__page-layer--dual-cover {
+  background-color: #374151 !important;
+}
+
+.rpv-core__page-layer--dual-cover-opposite {
+  background-color: #374151 !important;
+}
+
+.rpv-core__page-layer--dual-cover-opposite-rtl {
+  background-color: #374151 !important;
+}
+
+.rpv-core__page-layer--dual-cover-rtl {
+  background-color: #374151 !important;
+}
+
+.rpv-core__page-layer--dual-rtl {
+  background-color: #374151 !important;
+}
+
+.rpv-core__page-layer--single-rtl {
+  background-color: #0f1113 !important;
+}
+
+/* Remove any default margins and padding */
+* {
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #17191c !important;
 }
 
-h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-}
-
-button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    font-size: 1em;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-}
-
-button:hover {
-    border-color: #646cff;
-}
-
-button:focus,
-button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
-    }
-    a:hover {
-        color: #747bff;
-    }
-    button {
-        background-color: #f9f9f9;
-    }
-}
-
-/* Highlighted text styling */
-.highlighted-text {
-    background-color: yellow;
-    color: black;
-    font-weight: bold;
-    padding: 2px;
-    border-radius: 3px;
+#root {
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #15171b !important;
 }

@@ -1,43 +1,81 @@
-import React, { useState, useEffect } from "react";
-import Sidebar from "./components/Sidebar";
-import PDFViewer from "./components/PDFViewer";
+import React, { useState } from "react";
+import Dashboard from "./components/Dashboard";
+import GetStartedView from "./components/GetStartedView";
 import Auth from "./components/Auth";
 
-interface PdfFile {
-  filename: string;
-  url: string;
-}
-
 const App: React.FC = () => {
-  const [pdfList, setPdfList] = useState<PdfFile[]>([]);
-  const [folderPdfs, setFolderPdfs] = useState<PdfFile[]>([]);
-  const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
+  const [currentView, setCurrentView] = useState<'dashboard' | 'getStarted'>('dashboard');
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:5000/get-pdfs")
-      .then((res) => res.json())
-      .then((data) => setPdfList(data))
-      .catch((error) => console.error("Error fetching PDFs:", error));
-  }, []);
+  const handleGetStarted = () => {
+    setCurrentView('getStarted');
+  };
 
-  const handleFolderSelect = (folderPath: string) => {
-    setSelectedFolder(folderPath);
-
-    fetch(`http://127.0.0.1:5000/get-pdfs?folder=${encodeURIComponent(folderPath)}`)
-      .then((res) => res.json())
-      .then((data) => setFolderPdfs(data))
-      .catch((error) => console.error("Error fetching folder PDFs:", error));
+  const handleBackToDashboard = () => {
+    setCurrentView('dashboard');
   };
 
   return (
     <div className="w-screen h-screen flex flex-col text-black"> 
       {user ? (
         <div className="flex flex-1 w-full">
-          <Sidebar onFolderSelect={handleFolderSelect} selectedFolder={selectedFolder} />
-          <div className="flex flex-col flex-1 p-4 w-full">
-            <PDFViewer pdfList={selectedFolder ? folderPdfs : pdfList} selectedFolder={selectedFolder} />
-          </div>
+          {currentView === 'dashboard' ? (
+            <div className="flex flex-col flex-1 w-full">
+              {/* Navigation Header */}
+              <div className="bg-white border-b border-gray-200 px-6 py-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <h1 className="text-xl font-semibold text-gray-900">
+                      Dashboard
+                    </h1>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <span className="text-sm text-gray-600">
+                      Welcome, {user.email}
+                    </span>
+                    <button
+                      onClick={() => setUser(null)}
+                      className="text-sm text-red-600 hover:text-red-800"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Dashboard Content */}
+              <Dashboard 
+                onGetStarted={handleGetStarted}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col flex-1 w-full">
+              {/* Navigation Header */}
+              <div className="bg-gray-100 border-b border-gray-200 px-6 py-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <h1 className="text-xl font-semibold text-white-900">
+                      Get Started
+                    </h1>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <span className="text-sm text-white-600">
+                      Welcome, {user.email}
+                    </span>
+                    <button
+                      onClick={() => setUser(null)}
+                      className="text-sm text-red-600 hover:text-red-800"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Get Started Content */}
+              <GetStartedView onBackToDashboard={handleBackToDashboard} />
+            </div>
+          )}
         </div>
       ) : (
         <Auth setUser={setUser} />

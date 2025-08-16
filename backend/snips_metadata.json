@@ -1,0 +1,57 @@
+{
+  "c8f58e60-0a95-4c05-bb18-1238df9b1d97": {
+    "id": "c8f58e60-0a95-4c05-bb18-1238df9b1d97",
+    "title": "NTNG",
+    "description": "",
+    "timestamp": "2025-08-16 12:46:00",
+    "filename": "NTNG_1755328564.png",
+    "folder": "demo",
+    "file_path": "C:\\Users\\bhava\\OneDrive\\Desktop\\indianinfra\\annotation-tool\\backend\\uploads\\demo\\NTNG_1755328564.png",
+    "created_at": "2025-08-16T12:46:04.580055",
+    "url": "http://127.0.0.1:5000/uploads/demo/NTNG_1755328564.png"
+  },
+  "236c8488-26d8-4c36-bbdb-28eea608ebfe": {
+    "id": "236c8488-26d8-4c36-bbdb-28eea608ebfe",
+    "title": "n",
+    "description": "nkz",
+    "timestamp": "2025-08-16 13:43:32",
+    "filename": "n_1755332021.png",
+    "folder": "demo",
+    "file_path": "C:\\Users\\bhava\\OneDrive\\Desktop\\indianinfra\\annotation-tool\\backend\\uploads\\demo\\n_1755332021.png",
+    "created_at": "2025-08-16T13:43:41.775481",
+    "url": "http://127.0.0.1:5000/uploads/demo/n_1755332021.png"
+  },
+  "33749171-38c1-4d6b-96c2-1185fc54000e": {
+    "id": "33749171-38c1-4d6b-96c2-1185fc54000e",
+    "title": "hey",
+    "description": "",
+    "timestamp": "2025-08-16 13:54:24",
+    "filename": "hey_1755332669.png",
+    "folder": "demo",
+    "file_path": "C:\\Users\\bhava\\OneDrive\\Desktop\\indianinfra\\annotation-tool\\backend\\uploads\\demo\\hey_1755332669.png",
+    "created_at": "2025-08-16T13:54:29.430388",
+    "url": "http://127.0.0.1:5000/uploads/demo/hey_1755332669.png"
+  },
+  "d6d2ca5b-37b1-493f-9baa-e955b1e2ee30": {
+    "id": "d6d2ca5b-37b1-493f-9baa-e955b1e2ee30",
+    "title": "hi",
+    "description": "m",
+    "timestamp": "2025-08-16 15:39:29",
+    "filename": "hi_1755338977.png",
+    "folder": "demo",
+    "file_path": "C:\\Users\\bhava\\OneDrive\\Desktop\\indianinfra\\annotation-tool\\backend\\uploads\\demo\\hi_1755338977.png",
+    "created_at": "2025-08-16T15:39:37.501860",
+    "url": "http://127.0.0.1:5000/uploads/demo/hi_1755338977.png"
+  },
+  "52d5df93-506d-4e82-a9d4-d97a91db7367": {
+    "id": "52d5df93-506d-4e82-a9d4-d97a91db7367",
+    "title": "g",
+    "description": "",
+    "timestamp": "2025-08-16 17:03:48",
+    "filename": "g_1755344033.png",
+    "folder": "demo",
+    "file_path": "C:\\Users\\bhava\\OneDrive\\Desktop\\indianinfra\\annotation-tool\\backend\\uploads\\demo\\g_1755344033.png",
+    "created_at": "2025-08-16T17:03:53.382448",
+    "url": "http://127.0.0.1:5000/uploads/demo/g_1755344033.png"
+  }
+}

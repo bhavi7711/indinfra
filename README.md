@@ -1,51 +1,141 @@
-**PDF ANNOTATION TOOL**
+# Indian Infrastructure Annotation Tool
 
-PDF annotation tool is an innovative tool built to interact with PDFs, allowing users to snip portions of a PDF and highlight text. The application integrates a backend system that stores these annotations in an SQLite3 database, ensuring that all user interactions with the PDFs are stored efficiently. The tool is hosted on Firebase, offering seamless deployment and access.
+A comprehensive PDF annotation and folder management tool with authentication and dashboard functionality.
 
-Features Overview
-Snip Tool:
-The snip tool allows users to select and crop specific portions of a PDF document. Once an area is selected, the snip is captured and stored as an image. This tool is perfect for extracting important sections of documents for quick access.
+## Features
 
-Highlight Tool:
-Users can highlight text directly within a PDF. The highlights are stored in the backend and can be visualized as transparent overlays on the PDF. This tool provides a clear, customizable method to emphasize key content in documents.
+- 🔐 **Authentication**: Google and email/password login
+- 📁 **Dashboard**: Upload and manage folders from your local system
+- 📄 **PDF Viewer**: View and annotate PDF documents
+- ✂️ **Snipping Tool**: Take screenshots and save them to folders
+- 🎨 **Annotation Tools**: Highlight and annotate PDFs
+- 📂 **Folder Management**: Organize documents in folders
 
-Backend (Flask & SQLite3):
-The backend, built using Flask (Python), is responsible for handling the saving and retrieval of snips and highlights. The data is stored in an SQLite3 database, ensuring all annotations are linked to the corresponding PDF and are easily retrievable when required.
+## Getting Started
 
-Frontend (React & TypeScript):
-The frontend of the application is developed with React and TypeScript. This combination ensures a fast, dynamic, and type-safe user interface. The frontend is styled using Tailwind CSS, providing a clean and responsive design for both desktop and mobile devices.
+### Prerequisites
 
-Hosting on Firebase:
-The entire application is hosted on Firebase, ensuring that users can access the app reliably and at scale. Firebase Hosting provides a fast and secure way to serve the app's static files, while Firebase's integration capabilities simplify deployment.
+- Node.js (v16 or higher)
+- Python (v3.8 or higher)
+- npm or yarn
 
-Technologies Used:
-Frontend:
+### Installation
 
-React (for building user interfaces)
-TypeScript (for type safety)
-Tailwind CSS (for styling)
-Backend:
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd annotation-tool
+   ```
 
-Flask (Python web framework)
-SQLite3 (for local database storage)
-Hosting:
+2. **Install Frontend Dependencies**
+   ```bash
+   cd frontend
+   npm install
+   ```
 
-Firebase Hosting (for deploying the frontend application)
-Others:
+3. **Install Backend Dependencies**
+   ```bash
+   cd ../backend
+   pip install -r requirements.txt
+   ```
 
-PDF-lib (for manipulating PDF documents)
-html2canvas (for snipping and capturing portions of the PDF)
-react-pdf (for rendering and displaying PDF files)
-Development Process:
-The project started with the design phase, where wireframes were created to define the user flow and interface layout. The implementation began by setting up the frontend environment using React and TypeScript. Key features like the snip and highlight tools were developed step-by-step. During the backend development, Flask was chosen to handle API requests, while SQLite3 was integrated to store the annotations efficiently.
+### Running the Application
 
-The application was later deployed to Firebase to provide a cloud-based hosting solution, making the tool available for users across the globe. Continuous testing and debugging were performed to ensure all features worked seamlessly and the database interactions were stable.
+1. **Start the Backend Server**
+   ```bash
+   cd backend
+   python app.py
+   ```
+   The backend will run on `http://127.0.0.1:5000`
 
-Challenges Faced:
-Snip Tool Accuracy: Initially, the snip tool had some issues with accurately capturing selected areas, which were fixed through rigorous testing and tweaks.
-Cross-Device Compatibility: Ensuring the application worked smoothly on various screen sizes and devices was challenging but was addressed by using responsive design principles.
-Database Integration: Ensuring that the snips and highlights were correctly stored and linked with the relevant PDFs was a key focus, and the use of SQLite3 proved to be efficient.
-Future Improvements:
-Cloud Database Integration: As the application grows, integrating a cloud database like Firebase Firestore might improve scalability.
-User Authentication: Implementing a user authentication system so that users can save their annotations securely and access them across multiple devices.
-Advanced PDF Editing Features: Further development of PDF editing features, such as adding comments, text annotations, and more.
+2. **Start the Frontend Development Server**
+   ```bash
+   cd frontend
+   npm run dev
+   ```
+   The frontend will run on `http://localhost:5173`
+
+3. **Open the Application**
+   - Navigate to `http://localhost:5173` in your browser
+   - Sign in using Google or create an account with email/password
+   - You'll be redirected to the dashboard where you can upload folders
+
+## Usage
+
+### Dashboard
+- After login, you'll see the dashboard
+- Click "Upload Folder" to select a folder from your local system
+- All files within the folder will be uploaded and organized
+- View uploaded folders in a grid layout with file counts and upload dates
+
+### PDF Viewer
+- Click on any folder to open it in the PDF viewer
+- View and annotate PDF documents
+- Use the snipping tool to take screenshots
+- Save annotations and modifications
+
+### Folder Management
+- Upload multiple folders
+- Delete folders when no longer needed
+- Navigate between folders using the sidebar
+- All folders are preserved on the server
+
+## Project Structure
+
+```
+annotation-tool/
+├── frontend/                 # React frontend
+│   ├── src/
+│   │   ├── components/      # React components
+│   │   │   ├── Auth.tsx     # Authentication component
+│   │   │   ├── Dashboard.tsx # Dashboard component
+│   │   │   ├── Sidebar.tsx  # Sidebar navigation
+│   │   │   └── PDFViewer.tsx # PDF viewing component
+│   │   └── App.tsx          # Main application component
+│   └── package.json
+├── backend/                  # Flask backend
+│   ├── app.py              # Main Flask application
+│   ├── requirements.txt    # Python dependencies
+│   └── uploads/           # Uploaded files directory
+└── README.md
+```
+
+## API Endpoints
+
+- `GET /get-folders` - Get all uploaded folders
+- `POST /upload-folder` - Upload a new folder
+- `DELETE /delete-folder/<id>` - Delete a folder
+- `GET /get-pdfs` - Get PDFs from a specific folder
+- `POST /upload-pdf` - Upload a single PDF
+- `POST /start-snip` - Start the snipping tool
+
+## Technologies Used
+
+- **Frontend**: React, TypeScript, Tailwind CSS, Lucide React Icons
+- **Backend**: Flask, Python
+- **Authentication**: Firebase Auth
+- **PDF Handling**: React PDF Viewer, PDF.js
+- **File Upload**: HTML5 File API
+
+## Development
+
+### Adding New Features
+1. Create new components in `frontend/src/components/`
+2. Add corresponding API endpoints in `backend/app.py`
+3. Update the main App.tsx to include new routes/views
+
+### Styling
+- The application uses Tailwind CSS for styling
+- Icons are from Lucide React
+- Responsive design for different screen sizes
+
+## Troubleshooting
+
+- **Backend not starting**: Make sure Python dependencies are installed
+- **Frontend not loading**: Check if Node.js dependencies are installed
+- **Upload issues**: Ensure the `uploads` directory exists and has write permissions
+- **Authentication errors**: Verify Firebase configuration in `frontend/src/firebase.ts`
+
+## License
+
+This project is licensed under the MIT License.
